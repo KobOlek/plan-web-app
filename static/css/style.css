@@ -1,0 +1,606 @@
+.btn-success:not(input[name='changing_action']){
+    margin-bottom: 10px;
+}
+
+.wrapper{
+    background-color: #092635;
+    color: #fafffd;
+    box-sizing: content-box;
+    min-height: 100lvh;
+    max-height: 100%;
+}
+
+.add-plan, .plans{
+    margin: 0 50px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.plans > div {
+    height: 32%;
+    padding: 10px;
+}
+
+.add-plan > div{
+    height: 58%;
+    padding: 10px;
+}
+
+.plan{
+    box-sizing: content-box;
+    block-size: fit-content;
+    background-color: var(--color);
+    border: solid 3px white;
+    box-shadow: 12px 11px 0px -1px rgb(106, 49, 16);
+        -webkit-box-shadow: 12px 11px 0px -1px rgb(119, 56, 20);
+        -moz-box-shadow: 12px 11px 0px -1px rgb(72, 33, 11);
+}
+
+.plan > .settings:hover{
+    background-color: grey;
+}
+
+.plan .header{
+    font-size: 50px;
+    font-weight: bolder;
+}
+
+.open-sidebar-button-container{
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    height: 50px;
+    width:clamp(97vw, 100%, 100vw);
+    background-color: #0f997b;
+}
+
+.open-sidebar-button-container > button{
+    height: 100%;
+    margin-left: 10px;
+    background-color: inherit;
+    border: none;
+    border-right: 5px solid white;
+    border-left: 5px solid white;
+}
+
+.open-sidebar-button-container img:hover{
+    animation: hoverSidebarButton .5s;
+    transform: rotate(90deg);
+}
+
+.open-sidebar-button-container img:not(:hover){
+    transform: rotate(0deg);
+    animation: unhoverSidebarButton .5s;
+}
+
+.open-sidebar-button-container img{
+    height: 100%;
+}
+
+.sidebar{
+    position: fixed;
+    flex-direction: column;
+    display: none;
+    height: 100%;
+    --max-sidebar-width: 20%;
+    max-width: var(--max-sidebar-width);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #0d0d0d;
+    animation: appearing .5s;
+}
+
+.sidebar > a{
+    text-decoration: none;
+    color: #8e8a83;
+    transition: all .5s ease;
+}
+
+.close-sidebar-button{
+    background-color: inherit;
+    color: inherit;
+    border: none;
+    border-bottom: 1px solid white;
+    transition: all .5s ease-in-out;
+}
+
+.close-sidebar-button:hover{
+    background-color: whitesmoke;
+    color: black;
+}
+
+.sidebar > a:hover{
+    color: #c9c5bc;
+}
+
+@media (max-width:768px) {
+    .sidebar{
+        --max-sidebar-width: 35%;
+    }
+}
+
+@keyframes appearing{
+    from {width: 0%;}
+    to {width: var(--max-sidebar-width);}
+}
+
+@keyframes disappearing {
+    from {width: var(--max-sidebar-width);}
+    to {width: 0%;}
+}
+
+@keyframes hoverSidebarButton{
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(90deg);
+    }
+}
+
+@keyframes unhoverSidebarButton{
+    from{
+        transform: rotate(90deg);
+    }
+    to{
+        transform: rotate(0deg);
+    }
+}
+
+.changing-action-button{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.radio-field{
+    display: flex;
+    align-items: start;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.radio-field > li{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+@media (max-width: 425px) {
+    .radio-field{
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+    }
+    .radio-field > li{
+        display: grid;
+        grid-template-columns: 10% 70%;
+    }
+}
+
+@media (min-width: 1024px){
+    *{
+        font-size: 25px;
+    }
+}
+
+.add-plan-link{
+    border: dashed 5px #2590c6;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    transition: all .5s ease-in;
+}
+
+.add-plan-link:hover{
+    background-color: #2590c6;
+    border: solid 5px #2590c6;
+}
+
+.add-plan-link a{
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-plan-form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.add-plan-form > textarea{
+    resize: none;
+}
+
+.plan form{
+    text-align: center;
+}
+
+.dropdown-content{
+    display: none;
+}
+
+.dropdown{
+    display: flex;
+    flex-direction: column;
+}
+
+.show {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-plan-form input{
+    width: 90%;
+    height: 100%;
+}
+
+.back-button{
+    display: grid;
+    place-items: center;
+    border: dashed 3px #0f3d54;
+    transition: all .5s ease;
+}
+
+.back-button:hover{
+    background-color: #0f394f;
+    border: solid 3px #0f3d54;
+}
+
+.back-button .icon{
+    height: 10%;
+}
+
+.back-button > a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.login-form-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.registration-form-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-form-wrapper, .registration-form-wrapper{
+    width:clamp(97vw, 100%, 100vw);
+    height: 100vh;
+    background-color: #071b25;
+    color: #9EC8B9;
+}
+
+
+.login-form, .registration-form{
+    display: inherit;
+    flex-direction: inherit;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 25%;
+    height: 50%;
+    background-color: #26681f;
+    border: solid 3px #239316;
+    border-radius: 5%;
+    color: whitesmoke;
+    text-align: center;
+}
+
+.login-form > a, .registration-form > a{
+    text-decoration: none;
+    color: #239316;
+    transition: all .3s linear;
+}
+
+.login-form > a:hover, .registration-form > a:hover{
+    text-decoration: underline;
+    color: whitesmoke;
+}
+
+.login-form > input, .registration-form > input{
+    width: 60%;
+}
+
+.login-form > input:not(.btn-success), .registration-form > input:not(.btn-success) {
+    border: none;
+    background: none;
+    border-bottom: solid 1px #9EC8B9;
+    color: #9EC8B9;
+}
+
+.login-form > input:not(.btn-success), .registration-form >input:not(.btn-success)::placeholder{
+    color: #b4a88d;
+}
+
+.login-form>input:not(.btn-success), .registration-form > input{
+    margin-bottom: 10px;
+}
+
+.motivational-label{
+    font-size: 20px;
+}
+
+nav{
+    width:clamp(97vw, 100%, 100vw);
+    background-color: #0f3d54;
+    position: sticky;
+    top: 0;
+}
+
+.nav-list{
+    height: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+} 
+
+.nav-list > li{
+    margin: 10px;
+    transition: all .3s ease;
+}
+
+.nav-list > li > a{
+    text-decoration: none;
+    color: inherit;
+}
+
+.register-link{
+    height: 50px;
+    width: 5rem;
+    display: grid;
+    place-items: center;
+    border-radius: 50px;
+    background-color: #239316;
+    color: whitesmoke;
+}
+
+.register-link:hover{
+    color: white;
+    background-color: #26681f;
+    cursor: pointer;
+}
+
+.login-link:hover{
+    color: #2c779c;
+}
+
+.content{
+    height: 100%;
+    width:clamp(97vw, 100%, 100vw);
+}
+
+.content > header{
+    background-image: url('background-img.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height: 100%;
+    background-color: #071b25;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+.text-block{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 2rem;
+    width: 100%;
+    color: #854444;
+    background-image: linear-gradient(0deg, rgba(255, 255, 255, 0), white),
+    linear-gradient(180deg, rgba(255, 255, 255, 0), white);
+}
+
+.text-block ol{
+    display: flex;
+    flex-direction: column;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.text-block ol > li{
+    text-align: left;
+}
+
+.text-block ol > li, h1{
+    filter: drop-shadow(10px 10px 10px black)
+}
+
+.plan-life-button{
+    width: 180px;
+    border-radius: 25px;
+    height: 50px;
+    color: white;
+    background-color: #239316;
+    display: grid;
+    place-items: center;
+    margin-bottom: 10px;
+}
+
+.plan-life-button-link{
+    text-decoration: none;
+    color: inherit;
+    font-size: 20px;
+}
+
+.plan-life-button:hover{
+    background-color: #26681f;
+    cursor: pointer;
+}
+
+footer{
+    width:clamp(97vw, 100%, 100vw);
+    height: 25%;
+    display: grid;
+    place-items: center;
+    background-color: white;
+    color: black;
+}
+
+.contacts{
+    width: 100%;
+    text-align: center;
+}
+
+.contacts ul{
+    list-style: none;
+}
+
+.main-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content{
+    width:clamp(97vw, 100%, 100vw);
+}
+
+.questions-header{
+    text-align: center;
+}
+
+.main-phone-wrapper{
+    display: flex;
+    flex-direction: column-reverse;
+    height: 70%;
+}
+
+header{
+    margin-bottom: 25px;
+}
+
+.question-list{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100%;
+    margin: 0 auto;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.question-list li{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.questions{
+    text-align: start;
+    width: 80%;
+}
+
+.answers{
+    text-align: end;
+}
+
+@media screen and (max-width: 932px){
+    .content{
+        font-size: 20px;
+    }
+    .text-block{
+        font-size: 16px;
+    }
+
+    .question-list li{
+        flex-direction: column;
+    }
+
+    span{
+        font-size: .8rem;
+    }
+
+    .answers{
+        text-align: right;
+    }
+
+    .questions{
+        text-align: left;
+    }
+
+    footer, main, nav, .content, .main-content, .login-form-wrapper,
+    .registration-form-wrapper{
+        width: 100vw;
+    }
+}
+
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+@media screen and (max-width:281px){
+    .text-block ol{
+        font-size: 1.5rem;
+    }
+
+}
+
+@media screen and (max-width: 558px) {
+    .login-form,
+    .registration-form {
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 768px){
+    main{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .main-wrapper{
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    header{
+        margin-bottom: 20px;
+    }
+
+    .main-phone-wrapper{
+        display: flex;
+        flex-direction: column;
+    }
+
+    footer{
+        height: 100%;
+    }
+    
+    .plan .header{
+        font-size: 25px;
+    }
+}

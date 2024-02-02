@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Add plan
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <div class="open-sidebar-button-container">
+            <button onclick="open_sidenav()">
+                <img src="{{url_for('static', filename='img/menu-burger.png')}}" alt="">
+            </button>
+        </div>
+        <div class="add-plan">
+            <div class="plan" style="--color: {{color}};">
+                <form class="add-plan-form" action="" method="post">
+                    {{form.hidden_tag()}}
+                    {{form.header}}
+                    {{form.importance}}
+                    {{form.description}}
+                    {{form.submit}}
+                </form>
+            </div>
+            {% for plan in plans %}
+                <div class="plan" style="--color: {{plan.color}}">
+                    <span class="header">{{plan.header}}</span>
+                    <p>{{plan.description}}</p>
+                    <p>{{plan.created_time}}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="sidebar">
+        <button class="close-sidebar-button" onclick="animate_closing_sidenav()">Close sidenav</button>
+        <a href="{{url_for('plans', id=id)}}" class="">Main</a>
+        <a href="#" class="">Spendings</a>
+    </div>
+{% endblock %}

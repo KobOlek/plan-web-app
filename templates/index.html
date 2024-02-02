@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Main
+{% endblock %}
+
+{% block content %}
+    <div class="main-wrapper">
+        <div class="main-phone-wrapper">
+            <div class="content">
+                <header>
+                    <div class="text-block">
+                        <h1>Plan your life quicker!</h1>                
+                        <ol>
+                            <li>
+                                Planning your life helps you to do everything you've ever wanted
+                            </li>
+                            <li>
+                                It helps to remember every your plan
+                            </li>
+                            <li>
+                                You can plan more comfortable with our app
+                            </li>
+                        </ol>
+                        <div class="plan-life-button">
+                            <a class="plan-life-button-link" href="{{url_for('register')}}">
+                                Plan your life now!
+                            </a>
+                        </div>
+                    </div>
+                </header>
+            </div>
+            <nav>
+                <ul class="nav-list">
+                    <li class="login-link">
+                        <a href="{{url_for('login')}}">Sign in</a>
+                    </li>
+                    <li class="register-link">
+                        <a href="{{url_for('register')}}">Sign up</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <main>
+            <div class="questions-header">
+                <h1>Questions</h1>
+            </div>
+            <ul class="question-list">
+                <li class="questions"> 
+                    <span class="question">User: How many plans may I have?</span>
+                    <span class="question">U: May I switch the color of the plan?</span>
+                    <span class="question">
+                        U: May I delete my plan?
+                    </span>
+                </li>
+                <li class="answers">
+                    <span class="answer">We: How many you like.</span>
+                    <span class="answer">We: Yes, of course</span>
+                    <span class="answer">
+                        We: Yes, why not.
+                    </span> 
+                </li>
+            </ul>
+        </main>
+        <footer>
+            <div class="contacts">
+                <h4>Our social media</h4>
+                <ul>
+                    <li>
+                        <h6>
+                            Telegram
+                        </h6>
+                    </li>
+                    <li>
+                        <h6>
+                            Instagram
+                        </h6>
+                    </li>
+                    <li>
+                        <h6>
+                            E-mail
+                        </h6>
+                    </li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+{% endblock %}

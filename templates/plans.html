@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Your plans
+{% endblock %}
+
+{% block content %}
+    <div class="plans">
+        <div class="add-plan-link">
+            <a href="{{url_for('add_plan', id=id)}}">
+                <img src="{{url_for('static', filename='img/plus-img.png')}}" alt="Not open">
+            </a>
+        </div>
+        {% for plan in plans %}
+            <div class="plan" style="--color: {{plan.color}};">
+                <span class="header">{{plan.header}}</span>
+                <br>
+                <p>{{plan.description}}</p>
+                <p>{{plan.created_time}}</p>
+                <div class="dropdown">
+                    <button onclick="myFunction()" id="dropdownMenuButton" class="dropbtn btn btn-secondary dropdown-toggle">Settings</button>
+                    <form id="myDropdown" method="post" class="dropdown-content">                    
+                        <input type="color" name="color" value="{{plan.color}}">
+                        <div class="changing-action-buttons">
+                            <input class="btn btn-success" style="width: 25%;" type="submit" name="changing_action" value="Save">
+                            <a class="btn btn-warning" href="{{url_for('edit_plan', id=id, plan_id=plan.id)}}">Edit</a>
+                            <input  class="btn btn-danger" style="width: 25%;" type="submit" name="changing_action" value="Delete">
+                        </div>
+                        <input type="hidden" name="plan-id" type="text" value="{{plan.id}}">
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

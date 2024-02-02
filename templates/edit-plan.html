@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Edit plan
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <div class="open-sidebar-button-container">
+            <button onclick="open_sidenav()">
+                <img src="{{url_for('static', filename='img/menu-burger.png')}}" alt="">
+            </button>
+        </div>
+        <div class="add-plan">
+            <div class="plan" style="--color: {{plan.color}};">
+                <form class="add-plan-form" action="" method="post">
+                    <input name="header" type="text" placeholder="Header" value="{{plan.header}}">
+                    <ul class="radio-field" id="importance">
+                        <li>
+                            <input class="radio-field" id="importance-0" name="importance" type="radio" value="not important"> 
+                            <label for="importance-0">not important</label>
+                        </li>
+                        <li>
+                            <input class="radio-field" id="importance-1" name="importance" type="radio" value="important"> 
+                            <label for="importance-1">important</label>
+                        </li>
+                        <li>
+                            <input class="radio-field" id="importance-2" name="importance" type="radio" value="very important"> 
+                            <label for="importance-2">very important</label>
+                        </li>
+                    </ul>
+                    <textarea placeholder="Description" name="description" cols="25" rows="6">{{plan.description}}
+                    </textarea>
+                    <input class="btn btn-success" type="submit" name="submit" value="Save changes">
+                </form>
+            </div>
+        </div>
+        <div class="sidebar">
+            <button class="close-sidebar-button" onclick="animate_closing_sidenav()">Close sidenav</button>
+            <a href="{{url_for('plans', id=user_id)}}" class="">Main</a>
+            <a href="#" class="">Spendings</a>
+        </div>
+    </div>
+{% endblock %}
