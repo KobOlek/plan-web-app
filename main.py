@@ -1,3 +1,5 @@
+import datetime
+
 from flask import Flask, render_template, redirect, url_for, request
 from flask_bcrypt import Bcrypt
 from flask_login import UserMixin, login_user, LoginManager, logout_user, current_user, login_required
@@ -9,6 +11,7 @@ from datetime import date
 from random import random
 
 from forms import *
+from emailSender import EmailSender
 
 app = Flask(__name__)
 #run_with_ngrok(app)
@@ -17,7 +20,18 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://plans.db"#'postgresql://postgres:25092008Olek@localhost/plans'
+sender_email = ""
+with open("devEmails", "r") as file:
+    sender_email = file.read()
+
+sender_password = ""
+with open("devEmailPasswords", "r") as file:
+    sender_password = file.read()
+
+sender = EmailSender(sender_email, sender_password)
+
+# "sqlite://plans.db"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:25092008Olek@localhost/plans'
 app.config['SECRET_KEY'] = 'thisisasecretkey'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
@@ -25,6 +39,8 @@ bcrypt = Bcrypt(app)
 class RegisterForm(FlaskForm):
     username = StringField(validators=[InputRequired(), Length(
         min=4, max=20)], render_kw={"placeholder": "Username"})
+
+    email = EmailField(validators=[InputRequired()], render_kw={"placeholder":"Email"})
 
     password = PasswordField(validators=[InputRequired(), Length(
         min=4, max=20)], render_kw={"placeholder": "Password"})
@@ -41,6 +57,7 @@ class RegisterForm(FlaskForm):
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(), nullable=False, unique=True)
+    email = db.Column(db.String(), nullable=False, unique=True)
     password = db.Column(db.String(), nullable=False)
 
 class Plan(db.Model):
@@ -51,6 +68,7 @@ class Plan(db.Model):
     color = db.Column(db.String(), default="#E3651D")
     importance = db.Column(db.String(), default="not important")
     created_time = db.Column(db.String(), default=date.today().strftime("%d.%m.%Y"))
+    planned_time = db.Column(db.String(), nullable=False)
 
 with app.app_context():
     db.create_all()
@@ -85,7 +103,7 @@ def register():
 
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
-        new_user = User(username=form.username.data, password=hashed_password)
+        new_user = User(username=form.username.data, password=hashed_password, email=form.email.data)
         db.session.add(new_user)
         db.session.commit()
         return redirect(url_for('plans', id=new_user.id))
@@ -125,7 +143,8 @@ def add_plan(id):
         plan_color = get_color_due_to_importance(form.importance.data)
 
         plan = Plan(header=form.header.data, description=form.description.data,
-                    user_id=id, importance=form.importance.data, color=plan_color)
+                    user_id=id, importance=form.importance.data, color=plan_color,
+                    planned_time=f"{form.planned_time_day.data}.{form.planned_time_month.data}.{date.today().year}")
         db.session.add(plan)
         db.session.commit()
         return redirect(url_for("plans", id=id))
@@ -140,16 +159,24 @@ def edit_plan(id: int, plan_id: int):
     db.get_or_404(Plan, plan_id)
 
     plan = Plan.query.filter_by(id=plan_id).first()
+    form = EditPlanForm()
 
-    if request.method == "POST":
-        plan.header = request.form["header"]
-        plan.description = request.form["description"]
-        plan.importance = request.form["importance"]
+    if form.validate_on_submit():
+        plan.header = form.header.data
+        plan.description = form.description.data
+        plan.importance = form.importance.data
+        plan.planned_time = f"{form.planned_time_day.data}.{form.planned_time_month.data}"
         plan.color = get_color_due_to_importance(plan.importance)
         db.session.commit()
         return redirect(url_for("plans", id=id))
 
-    return render_template("edit-plan.html", user_id=id, plan_id=id, plan=plan)
+    form.header.data = plan.header
+    form.description.data = plan.description
+    form.importance.data = plan.importance
+    form.planned_time_day.data = int(plan.planned_time.split(".")[0])
+    form.planned_time_month.data = plan.planned_time.split(".")[1]
+
+    return render_template("edit-plan.html", user_id=id, plan_id=id, plan=plan, form=form)
 
 
 def get_color_due_to_importance(importance: str) -> str:
@@ -161,6 +188,27 @@ def get_color_due_to_importance(importance: str) -> str:
         case _:
             plan_color = "#E3651D"
     return plan_color
+
+def is_today(dateStr):
+    dateObj = datetime.datetime.strptime(dateStr, '%d.%m.%Y').date()
+    today = datetime.datetime.now().date()
+    return dateObj == today
+
+def send_reminding():
+    global sender
+    today_date = datetime.date.today().strftime("%d.%m.%Y")
+
+    plans = Plan.query.all()
+    for plan in plans:
+        try:
+            if is_today(plan.planned_time):
+                current_user = User.query.filter_by(id=plan.user_id).first()
+                sender.send_email(f"You had to have done {plan.importance} plan today!", current_user.email, f"Reminding {today_date}")
+        except:
+            print("Not correct format of date")
+
+with app.app_context():
+    send_reminding()
 
 if __name__ == "__main__":
     app.run()
